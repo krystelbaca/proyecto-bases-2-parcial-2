@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="HrAppPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>mx.uach.fing.bases2.aplicacion.java.entities.Locations</class>
+    <class>mx.uach.fing.bases2.aplicacion.java.entities.Regions</class>
+    <class>mx.uach.fing.bases2.aplicacion.java.entities.Departments</class>
+    <class>mx.uach.fing.bases2.aplicacion.java.entities.Countries</class>
+    <class>mx.uach.fing.bases2.aplicacion.java.entities.Jobs</class>
+    <class>mx.uach.fing.bases2.aplicacion.java.entities.Employees</class>
+    <class>mx.uach.fing.bases2.aplicacion.java.entities.JobHistory</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
+      <property name="javax.persistence.jdbc.user" value="hr"/>
+      <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
+      <property name="javax.persistence.jdbc.password" value="1234"/>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+    </properties>
+  </persistence-unit>
+</persistence>
