@@ -5,7 +5,6 @@
  */
 package mx.uach.fing.bases2.aplicacion.java.entities;
 
-import java.io.Serializable;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;

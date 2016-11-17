@@ -14,12 +14,6 @@ import mx.uach.fing.bases2.aplicacion.java.entities.Location;
  */
 public class Main {
     public static void main(String[] args) throws SQLException {
-        Location l = new Location();
-        
-        l.addLocation("edgars","d","ds","f","US");
-//        
-//        l.updateLocation(3000,"as","d","ds","f","US");
 
-//        l.deleteLocation(3000, "US");
     }
 }
