@@ -5,12 +5,21 @@
  */
 package mx.uach.fing.bases2.aplicacion.java;
 
+import java.sql.SQLException;
+import mx.uach.fing.bases2.aplicacion.java.entities.Location;
+
 /**
  *
  * @author kryst
  */
 public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello world");
+    public static void main(String[] args) throws SQLException {
+        Location l = new Location();
+        
+        l.addLocation("edgars","d","ds","f","US");
+//        
+//        l.updateLocation(3000,"as","d","ds","f","US");
+
+//        l.deleteLocation(3000, "US");
     }
 }

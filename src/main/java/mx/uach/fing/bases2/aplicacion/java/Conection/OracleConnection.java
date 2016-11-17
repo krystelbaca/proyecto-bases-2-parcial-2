@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mx.uach.fing.bases2.aplicacion.java;
+package mx.uach.fing.bases2.aplicacion.java.Conection;
 
 /**
  *
@@ -14,11 +14,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-/**
- * OracleConnection a base deda tos MYSQL que utuliza un singleton
- * @author Luis Antonio Ramirez Martinez
- */
 public class OracleConnection {
     
     private final static String USUARIO = "hr";
