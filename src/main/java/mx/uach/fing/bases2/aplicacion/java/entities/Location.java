@@ -7,7 +7,9 @@ package mx.uach.fing.bases2.aplicacion.java.entities;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import mx.uach.fing.bases2.aplicacion.java.Conection.OracleConnection;
 
 /**
@@ -18,7 +20,13 @@ import mx.uach.fing.bases2.aplicacion.java.Conection.OracleConnection;
 public class Location{
 
     Connection con = OracleConnection.getInstance().getCon();
-    
+
+    public ResultSet getLocations() throws SQLException{
+        Statement st = OracleConnection.getInstance().getCon().createStatement();
+        ResultSet rs = st.executeQuery("SELECT * from all_locations_view");
+        return rs;
+    }
+
     public void addLocation(String streetAddress, String postalCode, 
                             String city, String stateProvince, String countryId) throws SQLException{
         String sql = "{ call add_location(?,?,?,?,?)}";
@@ -46,11 +54,10 @@ public class Location{
         callstm.close();
     }    
     
-    public void deleteLocation(Integer locationId, String countryId) throws SQLException{
-        String sql = "{ call delete_location(?,?)}";
+    public void deleteLocation(Integer locationId) throws SQLException{
+        String sql = "{ call delete_location(?)}";
         CallableStatement callstm = con.prepareCall(sql);
         callstm.setInt(1, locationId);
-        callstm.setString(2, countryId);
         callstm.execute();
         callstm.close();
     }    

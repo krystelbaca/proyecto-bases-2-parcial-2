@@ -8,7 +8,9 @@ package mx.uach.fing.bases2.aplicacion.java.entities;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import mx.uach.fing.bases2.aplicacion.java.Conection.OracleConnection;
 
 /**
@@ -19,6 +21,12 @@ import mx.uach.fing.bases2.aplicacion.java.Conection.OracleConnection;
 public class Employee {
    
     Connection con = OracleConnection.getInstance().getCon();
+    
+    public ResultSet getEmployees() throws SQLException{
+        Statement st = OracleConnection.getInstance().getCon().createStatement();
+        ResultSet rs = st.executeQuery("SELECT * from all_employees_view");
+        return rs;
+    }
     
     public void addEmployee(String firstName, String lastName, 
                             String email, String phoneNumber, 
@@ -62,11 +70,10 @@ public class Employee {
         callstm.close();
     }    
     
-    public void deleteLocation(Integer employee, String countryId) throws SQLException{
+    public void deleteLocation(Integer employeeId) throws SQLException{
         String sql = "{ call delete_employee(?,?)}";
         CallableStatement callstm = con.prepareCall(sql);
-        callstm.setInt(1, employee);
-        callstm.setString(2, countryId);
+        callstm.setInt(1, employeeId);
         callstm.execute();
         callstm.close();
     }    

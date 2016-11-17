@@ -5,21 +5,20 @@
  */
 
 import java.sql.SQLException;
-import mx.uach.fing.bases2.aplicacion.java.entities.Location;
+import mx.uach.fing.bases2.aplicacion.java.entities.Department;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author eopg9
  */
-public class TestLocation {
+public class TestDepartment {
     
-    public TestLocation() {
+    public TestDepartment() {
     }
     
     @BeforeClass
@@ -43,11 +42,11 @@ public class TestLocation {
     //
     @Test
     public void hello() throws SQLException {
-            Location l = new Location();
+        Department d = new Department();
         
-        l.addLocation("1325 Campos del sembradio","33125","Chihuhaua","Chihuahuahuahua","MX");
+        d.addDepartment("Graphic Design",122,1400);
 //        
-//        l.updateLocation(3000,"5423 Av. Juarez","56213","Guadalajara","Jalisco","MX");
+//        l.updateDepartment(,"Graphic Design",122,1400);
 
 //        l.deleteLocation(3000, "MX");
     }
