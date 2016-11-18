@@ -397,7 +397,7 @@ public class Ventana extends javax.swing.JFrame {
                     .addGroup(locacionespnlLayout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addComponent(jLabel16)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(locationIDlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(locacionespnlLayout.createSequentialGroup()
                         .addGap(28, 28, 28)
