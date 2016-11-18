@@ -5,6 +5,8 @@
  */
 package GUI;
 
+import java.awt.List;
+
 /**
  *
  * @author kryst
@@ -85,11 +87,22 @@ public class Ventana extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        entidadescmb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                entidadescmbActionPerformed(evt);
+            }
+        });
+
         jLabel1.setText("Entidades:");
 
         consultarcmd.setText("Consultar");
 
         insertarcmd.setText("Insertar");
+        insertarcmd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertarcmdActionPerformed(evt);
+            }
+        });
 
         actualizarcmd.setText("Actualizar");
 
@@ -116,9 +129,9 @@ public class Ventana extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(92, 92, 92)
                         .addComponent(consultarcmd, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51)
-                        .addComponent(insertarcmd, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(53, 53, 53)
+                        .addComponent(insertarcmd, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51)
                         .addComponent(actualizarcmd, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(37, 37, 37)
                         .addComponent(eliminarcmd, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -384,7 +397,7 @@ public class Ventana extends javax.swing.JFrame {
                     .addGroup(locacionespnlLayout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addComponent(jLabel16)
-                        .addGap(26, 26, 26)
+                        .addGap(18, 18, 18)
                         .addComponent(locationIDlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(locacionespnlLayout.createSequentialGroup()
                         .addGap(28, 28, 28)
@@ -485,6 +498,14 @@ public class Ventana extends javax.swing.JFrame {
     private void lastNamelblActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastNamelblActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_lastNamelblActionPerformed
+
+    private void entidadescmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entidadescmbActionPerformed
+       
+    }//GEN-LAST:event_entidadescmbActionPerformed
+
+    private void insertarcmdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarcmdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_insertarcmdActionPerformed
 
     /**
      * @param args the command line arguments
