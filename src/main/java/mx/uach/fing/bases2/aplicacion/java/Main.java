@@ -5,12 +5,16 @@
  */
 package mx.uach.fing.bases2.aplicacion.java;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import mx.uach.fing.bases2.aplicacion.java.entities.Employee;
+
 /**
  *
  * @author kryst
  */
 public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello world");
+    public static void main(String[] args) throws SQLException {
+
     }
 }
