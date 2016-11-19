@@ -44,10 +44,10 @@ public class TestDepartment {
     public void hello() throws SQLException {
         Department d = new Department();
         
-        d.addDepartment("Graphic Design",122,1400);
+        d.addDepartment("Graphic Design",129,1400);
 //        
-//        l.updateDepartment(,"Graphic Design",122,1400);
+//        d.updateDepartment(,"Graphic Design",122,1400);
 
-//        l.deleteLocation(3000, "MX");
+//        d.deleteLocation(3000, "MX");
     }
 }

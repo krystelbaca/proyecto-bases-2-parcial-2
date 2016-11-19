@@ -5,11 +5,13 @@
  */
 package mx.uach.fing.bases2.aplicacion.java.entities;
 
+import java.awt.List;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import mx.uach.fing.bases2.aplicacion.java.Conection.OracleConnection;
 
 /**
@@ -21,12 +23,20 @@ public class Location{
 
     Connection con = OracleConnection.getInstance().getCon();
 
-    public ResultSet getLocations() throws SQLException{
-        Statement st = OracleConnection.getInstance().getCon().createStatement();
-        ResultSet rs = st.executeQuery("SELECT * from all_locations_view");
-        return rs;
+    public java.util.List<String> getLocations(){
+    try {
+        ArrayList<String> userList = new ArrayList<>();
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery("SELECT location_id from all_locations_view");
+        while (rs.next()) {
+            userList.add(rs.getString(1));
+        }
+        return userList;
+    } catch (SQLException ex) {
+        System.out.println(ex);
+        return null;
     }
-
+}    
     public void addLocation(String streetAddress, String postalCode, 
                             String city, String stateProvince, String countryId) throws SQLException{
         String sql = "{ call add_location(?,?,?,?,?)}";

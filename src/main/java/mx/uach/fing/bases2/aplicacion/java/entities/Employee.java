@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import mx.uach.fing.bases2.aplicacion.java.Conection.OracleConnection;
 
 /**
@@ -22,11 +23,20 @@ public class Employee {
    
     Connection con = OracleConnection.getInstance().getCon();
     
-    public ResultSet getEmployees() throws SQLException{
-        Statement st = OracleConnection.getInstance().getCon().createStatement();
-        ResultSet rs = st.executeQuery("SELECT * from all_employees_view");
-        return rs;
+    public java.util.List<String> getEmployees(){
+    try {
+        ArrayList<String> userList = new ArrayList<>();
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery("SELECT employee_id, first_name from all_employees_view");
+        while (rs.next()) {
+            userList.add(rs.getString(1) + " " + rs.getString(2));
+        }
+        return userList;
+    } catch (SQLException ex) {
+        System.out.println(ex);
+        return null;
     }
+}    
     
     public void addEmployee(String firstName, String lastName, 
                             String email, String phoneNumber, 
