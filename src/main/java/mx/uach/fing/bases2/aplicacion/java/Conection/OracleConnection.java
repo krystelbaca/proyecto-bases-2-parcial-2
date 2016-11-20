@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 public class OracleConnection {
     
-    private final static String USUARIO = "hr";
+    private final static String USUARIO = "hr1";
     private final static String PASSWORD = "hr";
     private final static String CONEXION = "jdbc:oracle:thin:@localhost:1521:XE";
     private static OracleConnection INSTANCE;

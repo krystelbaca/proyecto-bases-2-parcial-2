@@ -4,14 +4,21 @@
  * and open the template in the editor.
  */
 
+import entidades.ViewEmployee;
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.SQLException;
-import mx.uach.fing.bases2.aplicacion.java.entities.Location;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+import mx.uach.fing.bases2.aplicacion.java.Conection.OracleConnection;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -43,12 +50,35 @@ public class TestLocation {
     //
     @Test
     public void hello() throws SQLException {
-            Location l = new Location();
         
-        l.addLocation("1325 Campos del sembradio","33125","Chihuhaua","Chihuahuahuahua","MX");
+            Connection con = OracleConnection.getInstance().getCon();
+//            Location l = new Location();
+//        
+//        l.addLocation("1325 Campos del sembradio","33125","Chihuhaua","Chihuahuahuahua","MX");
 //        
 //        l.updateLocation(3000,"5423 Av. Juarez","56213","Guadalajara","Jalisco","MX");
 
 //        l.deleteLocation(3000, "MX");
+        
+            //  Creacion del EntityManager
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("proyectoPU");
+        EntityManager em = emf.createEntityManager();
+        
+        em.getTransaction();
+        
+        //Refrescar Tabla
+        String sql = "{ call DBMS_MVIEW.REFRESH('view_all_employees')}";
+        CallableStatement callstm = con.prepareCall(sql);
+        callstm.executeQuery();
+        
+//        Query query = em.createNamedQuery("ViewEmployee.findAll");
+//        
+//        List<ViewEmployee> employees = query.getResultList();        
+//        for (ViewEmployee employee : employees) {
+//            System.out.println(employee.toString());
+//        }
+        
+        
+
     }
 }

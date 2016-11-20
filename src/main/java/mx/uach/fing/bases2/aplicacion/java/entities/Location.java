@@ -21,6 +21,9 @@ import mx.uach.fing.bases2.aplicacion.java.Conection.OracleConnection;
 
 public class Location{
 
+    Integer locationId;
+    String nombre;
+     
     Connection con = OracleConnection.getInstance().getCon();
 
     public java.util.List<String> getLocations(){
