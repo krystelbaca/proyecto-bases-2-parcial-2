@@ -22,9 +22,9 @@ public class EmployeeInterface {
     
     public void addEmployee(String firstName, String lastName, 
                             String email, String phoneNumber, 
-                            Date hireDate, String jobId,
-                            Integer salary, Float commissionPct,
-                            Integer managerId, Integer departmentId) throws SQLException{
+                            java.sql.Date hireDate, String jobId,
+                            Float salary, Float commissionPct,
+                            Integer managerId, Short departmentId) throws SQLException{
         String sql = "{ call add_employee(?,?,?,?,?,?,?,?,?,?)}";
         CallableStatement callstm = con.prepareCall(sql);
         callstm.setString(1, firstName);
@@ -33,19 +33,19 @@ public class EmployeeInterface {
         callstm.setString(4, phoneNumber);
         callstm.setDate(5, hireDate);
         callstm.setString(6, jobId);
-        callstm.setInt(7, salary);
+        callstm.setFloat(7, salary);
         callstm.setFloat(8, commissionPct);
-        callstm.setFloat(9, managerId);
-        callstm.setFloat(10, departmentId);
+        callstm.setInt(9, managerId);
+        callstm.setShort(10, departmentId);
         callstm.execute();
         callstm.close();
     }
 
     public void updateLocation(String firstName, String lastName, 
                             String email, String phoneNumber, 
-                            Date hireDate, String jobId,
-                            Integer salary, Float commissionPct,
-                            Integer managerId, Integer departmentId) throws SQLException{
+                            java.sql.Date hireDate, String jobId,
+                            Float salary, Float commissionPct,
+                            Integer managerId, Short departmentId) throws SQLException{
         String sql = "{ call update_employee(?,?,?,?,?,?,?,?,?,?)}";
         CallableStatement callstm = con.prepareCall(sql);
         callstm.setString(1, firstName);
@@ -54,10 +54,10 @@ public class EmployeeInterface {
         callstm.setString(4, phoneNumber);
         callstm.setDate(5, hireDate);
         callstm.setString(6, jobId);
-        callstm.setInt(7, salary);
+        callstm.setFloat(7, salary);
         callstm.setFloat(8, commissionPct);
-        callstm.setFloat(9, managerId);
-        callstm.setFloat(10, departmentId);
+        callstm.setInt(9, managerId);
+        callstm.setShort(10, departmentId);
         callstm.execute();
         callstm.close();
     }    
