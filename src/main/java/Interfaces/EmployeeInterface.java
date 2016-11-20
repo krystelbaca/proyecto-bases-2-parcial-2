@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mx.uach.fing.bases2.aplicacion.java.entities;
+package Interfaces;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import mx.uach.fing.bases2.aplicacion.java.Conection.OracleConnection;
 
 /**
@@ -19,24 +16,9 @@ import mx.uach.fing.bases2.aplicacion.java.Conection.OracleConnection;
  * @author eopg9
  */
 
-public class Employee {
+public class EmployeeInterface {
    
-    Connection con = OracleConnection.getInstance().getCon();
-    
-    public java.util.List<String> getEmployees(){
-    try {
-        ArrayList<String> userList = new ArrayList<>();
-        Statement st = con.createStatement();
-        ResultSet rs = st.executeQuery("SELECT employee_id, first_name from all_employees_view");
-        while (rs.next()) {
-            userList.add(rs.getString(1) + " " + rs.getString(2));
-        }
-        return userList;
-    } catch (SQLException ex) {
-        System.out.println(ex);
-        return null;
-    }
-}    
+    Connection con = OracleConnection.getInstance().getCon(); 
     
     public void addEmployee(String firstName, String lastName, 
                             String email, String phoneNumber, 

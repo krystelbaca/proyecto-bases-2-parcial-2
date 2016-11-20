@@ -3,32 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mx.uach.fing.bases2.aplicacion.java.entities;
+package Interfaces;
 
-import java.io.Serializable;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import mx.uach.fing.bases2.aplicacion.java.Conection.OracleConnection;
 
 /**
  *
  * @author eopg9
  */
-public class Department{
+public class DepartmentInterface{
     Connection con = OracleConnection.getInstance().getCon();
-    
-    public ResultSet getDepartments() throws SQLException{
-        Statement st = OracleConnection.getInstance().getCon().createStatement();
-        ResultSet rs = st.executeQuery("SELECT * from all_departments_view");
-        return rs;
-    }
         
     public void addDepartment(String departmentName, Integer managerId, 
-                            Integer locationId) throws SQLException{
+                            Short locationId) throws SQLException{
         String sql = "{ call add_department(?,?,?)}";
         CallableStatement callstm = con.prepareCall(sql);
         callstm.setString(1, departmentName);
@@ -39,7 +29,7 @@ public class Department{
     }
 
     public void updateDepartment(Integer departmentId, String departmentName, 
-                                 Integer managerId, Integer locationId) throws SQLException{
+                                 Integer managerId, Short locationId) throws SQLException{
         String sql = "{ call update_department(?,?,?)}";
         CallableStatement callstm = con.prepareCall(sql);
         callstm.setString(1, departmentName);

@@ -10,6 +10,8 @@
     <class>entidades.Location</class>
     <class>entidades.Job</class>
     <class>entidades.ViewEmployee</class>
+    <class>entidades.ViewLocation</class>
+    <class>entidades.ViewDepartment</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
       <property name="javax.persistence.jdbc.user" value="hr1"/>

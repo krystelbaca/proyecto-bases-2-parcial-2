@@ -5,7 +5,7 @@
  */
 
 import java.sql.SQLException;
-import mx.uach.fing.bases2.aplicacion.java.entities.Department;
+import Interfaces.DepartmentInterface;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -42,9 +42,9 @@ public class TestDepartment {
     //
     @Test
     public void hello() throws SQLException {
-        Department d = new Department();
+        DepartmentInterface d = new DepartmentInterface();
         
-        d.addDepartment("Graphic Design",129,1400);
+        d.addDepartment("Graphic Design",1,1);
 //        
 //        d.updateDepartment(,"Graphic Design",122,1400);
 
