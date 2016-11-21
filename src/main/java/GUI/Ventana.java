@@ -78,6 +78,7 @@ public class Ventana extends javax.swing.JFrame {
                     department.getDepartmentName(), 
                     department.getDepartmentId());
             deptoempcmb.addItem(departmentItem);
+            searchDepartamentosCmb.addItem(departmentItem);
         }       
         
         for (Job job : jobs) {
@@ -246,8 +247,8 @@ public class Ventana extends javax.swing.JFrame {
         eliminarcmddep = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        buscardeptxt = new javax.swing.JTextField();
         buscarcmddep = new javax.swing.JButton();
+        searchDepartamentosCmb = new javax.swing.JComboBox<String>();
         locacionespnl = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         ciudadtxt = new javax.swing.JTextField();
@@ -656,23 +657,23 @@ public class Ventana extends javax.swing.JFrame {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(44, 44, 44)
+                .addGap(42, 42, 42)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(insertarcmddep, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(actualizarcmddep, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(eliminarcmddep, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
+                .addContainerGap(75, Short.MAX_VALUE)
                 .addComponent(insertarcmddep, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(actualizarcmddep, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(eliminarcmddep, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(88, 88, 88))
+                .addGap(41, 41, 41))
         );
 
         jLabel9.setText("Buscar:");
@@ -684,6 +685,13 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
 
+        searchDepartamentosCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-selecionar departamento-" }));
+        searchDepartamentosCmb.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                searchDepartamentosCmbItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -692,20 +700,20 @@ public class Ventana extends javax.swing.JFrame {
                 .addGap(214, 214, 214)
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buscardeptxt, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(searchDepartamentosCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buscarcmddep, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(324, Short.MAX_VALUE))
+                .addContainerGap(238, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buscardeptxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(buscarcmddep, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31))
+                    .addComponent(buscarcmddep, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchDepartamentosCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28))
         );
 
         javax.swing.GroupLayout deptospnlLayout = new javax.swing.GroupLayout(deptospnl);
@@ -1068,8 +1076,8 @@ public class Ventana extends javax.swing.JFrame {
         EntityManager em = emf.createEntityManager();    
         ViewDepartment department = new ViewDepartment();
         Query queryDep = em
-                .createNamedQuery("ViewDepartment.findByDepartmentName")
-                .setParameter("departmentName", buscardeptxt.getText());
+                .createNamedQuery("ViewDepartment.findByDepartmentId")
+                .setParameter("departmentId", getManagerId());
         department = (ViewDepartment) queryDep
                 .getSingleResult();
         deptoIDlbl.setText(department.getDepartmentId()
@@ -1094,6 +1102,10 @@ public class Ventana extends javax.swing.JFrame {
             Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_eliminarcmdempActionPerformed
+
+    private void searchDepartamentosCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_searchDepartamentosCmbItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchDepartamentosCmbItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -1136,7 +1148,6 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JButton actualizarcmdemp;
     private javax.swing.JButton buscarcmddep;
     private javax.swing.JButton buscarcmdemp;
-    private javax.swing.JTextField buscardeptxt;
     private javax.swing.JTextField ciudadtxt;
     private javax.swing.JTextField comlbl;
     private javax.swing.JTextField cpostaltxt;
@@ -1204,6 +1215,8 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> paiscmb;
     private javax.swing.JTextField phonelbl;
     private javax.swing.JComboBox<String> puestocmb;
+    private javax.swing.JComboBox<String> searchDepartamentosCmb;
     private javax.swing.JTextField slrlbl;
     // End of variables declaration//GEN-END:variables
 }
+
