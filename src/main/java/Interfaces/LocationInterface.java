@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mx.uach.fing.bases2.aplicacion.java.entities;
+package Interfaces;
 
 import java.awt.List;
 import java.sql.CallableStatement;
@@ -19,8 +19,11 @@ import mx.uach.fing.bases2.aplicacion.java.Conection.OracleConnection;
  * @author eopg9
  */
 
-public class Location{
+public class LocationInterface{
 
+    Integer locationId;
+    String nombre;
+     
     Connection con = OracleConnection.getInstance().getCon();
 
     public java.util.List<String> getLocations(){

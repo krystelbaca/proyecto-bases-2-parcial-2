@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mx.uach.fing.bases2.aplicacion.java.entities;
+package Interfaces;
 
 /**
  *

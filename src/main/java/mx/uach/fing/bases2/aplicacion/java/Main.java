@@ -8,7 +8,7 @@ package mx.uach.fing.bases2.aplicacion.java;
 import GUI.Ventana;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import mx.uach.fing.bases2.aplicacion.java.entities.Employee;
+import Interfaces.EmployeeInterface;
 
 /**
  *
