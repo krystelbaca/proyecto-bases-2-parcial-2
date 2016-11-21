@@ -67,9 +67,9 @@ public class TestLocation {
         em.getTransaction();
         
         //Refrescar Tabla
-        String sql = "{ call DBMS_MVIEW.REFRESH('view_all_employees')}";
-        CallableStatement callstm = con.prepareCall(sql);
-        callstm.executeQuery();
+//        String sql = "{ call DBMS_MVIEW.REFRESH('view_all_employees')}";
+//        CallableStatement callstm = con.prepareCall(sql);
+//        callstm.executeQuery();
         
 //        Query query = em.createNamedQuery("ViewEmployee.findAll");
 //        
@@ -78,7 +78,10 @@ public class TestLocation {
 //            System.out.println(employee.toString());
 //        }
         
-        
+          ViewEmployee employee = new ViewEmployee();
+          Query queryEmp = em.createNamedQuery("ViewEmployee.findByFirstName").setParameter("firstName", "Jean");
+          employee = (ViewEmployee) queryEmp.getSingleResult();
+          System.out.println(employee.getLastName());
 
     }
 }

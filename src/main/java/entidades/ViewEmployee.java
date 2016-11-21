@@ -75,6 +75,22 @@ public class ViewEmployee implements Serializable {
         this.employeeId = employeeId;
     }
 
+    public ViewEmployee(String firstName) {
+        setEmployeeId(employeeId);
+        this.firstName = firstName;
+        setLastName(lastName);
+        setEmail(email);
+        setPhoneNumber(phoneNumber);
+        setHireDate(hireDate);
+        setJobId(jobId);
+        setSalary(salary);
+        setCommissionPct(commissionPct);
+        setManagerId(managerId);
+        setDepartmentId(departmentId);
+    }
+    
+    
+
     public Integer getEmployeeId() {
         return employeeId;
     }

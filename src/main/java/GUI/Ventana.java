@@ -20,8 +20,10 @@ import Interfaces.EmployeeInterface;
 import entidades.Country;
 import entidades.Job;
 import entidades.ViewDepartment;
-import java.sql.Date;
-import java.time.LocalDate;
+import java.sql.CallableStatement;
+import java.util.ArrayList;
+import java.util.Objects;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -29,7 +31,8 @@ import java.time.LocalDate;
  */
 public class Ventana extends javax.swing.JFrame {
 
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("proyectoPU");
+    EntityManagerFactory emf = 
+            Persistence.createEntityManagerFactory("proyectoPU");
     EntityManager em = emf.createEntityManager();    
     
     Query querySelectEmp = em.createNamedQuery("ViewEmployee.findAll");
@@ -39,7 +42,8 @@ public class Ventana extends javax.swing.JFrame {
     List<ViewLocation> locations = querySelectLoc.getResultList(); 
     
     Query querySelectDep = em.createNamedQuery("ViewDepartment.findAll");
-    List<ViewDepartment> departments = querySelectDep.getResultList(); 
+    ArrayList<ViewDepartment> departments = (ArrayList<ViewDepartment>) 
+            querySelectDep.getResultList(); 
         
     Query querySelectJob = em.createNamedQuery("Job.findAll");
     List<Job> jobs = querySelectJob.getResultList();   
@@ -47,7 +51,7 @@ public class Ventana extends javax.swing.JFrame {
     Query querySelectCou = em.createNamedQuery("Country.findAll");
     List<Country> countries = querySelectCou.getResultList();        
     
-
+    ViewEmployee currentEmployee = new ViewEmployee();
     public Ventana() {
         initComponents();
         
@@ -59,6 +63,7 @@ public class Ventana extends javax.swing.JFrame {
                     employee.getEmployeeId());
             managercmb.addItem(employeeItem);
             managerempcmb.addItem(employeeItem);
+            empladoscmb.addItem(employeeItem);
         }
 
         for (ViewLocation location : locations) {
@@ -89,6 +94,12 @@ public class Ventana extends javax.swing.JFrame {
             paiscmb.addItem(jobItem);
         }
         em.close();
+    }
+    
+    public Integer getEmployeeId(){
+        Integer indexSelected = empladoscmb.getSelectedIndex();
+        Integer employeeId = employees.get(indexSelected).getEmployeeId();
+        return employeeId;
     }
     
     public Integer getManagerId(){
@@ -127,6 +138,33 @@ public class Ventana extends javax.swing.JFrame {
         return countryId;
     } 
     
+    public Integer findDepartmentIndex(Short departmentId){
+        for(Integer x=0; x<departments.size(); x++) {
+            if (Objects.equals(departmentId, departments.get(x)
+                    .getDepartmentId())) {
+                return x;
+            }
+        }
+        return -1;
+    }
+    
+    public Integer findManagerEmpIndex(Integer managerId){
+        for(Integer x=0; x<employees.size(); x++) {
+            if (Objects.equals(managerId, employees.get(x).getEmployeeId())) {
+                return x;
+            }
+        }
+        return -1;
+    }  
+    
+    public Integer findJobIndex(String JobId){
+        for(Integer x=0; x<jobs.size(); x++) {
+            if (Objects.equals(JobId, jobs.get(x).getJobId())) {
+                return x;
+            }
+        }
+        return -1;
+    }        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -164,14 +202,15 @@ public class Ventana extends javax.swing.JFrame {
         employeeIDlbl = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         dchcontratacion = new com.toedter.calendar.JDateChooser();
+        jLabel24 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         eliminarcmdemp = new javax.swing.JButton();
         insertarcmdemp = new javax.swing.JButton();
         actualizarcmdemp = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
-        buscartxt = new javax.swing.JTextField();
-        buscarcmd = new javax.swing.JButton();
+        buscarcmdemp = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        empladoscmb = new javax.swing.JComboBox<String>();
         deptospnl = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         locationcmb = new javax.swing.JComboBox<String>();
@@ -186,6 +225,10 @@ public class Ventana extends javax.swing.JFrame {
         insertarcmddep = new javax.swing.JButton();
         actualizarcmddep = new javax.swing.JButton();
         eliminarcmddep = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        buscardeptxt = new javax.swing.JTextField();
+        buscarcmddep = new javax.swing.JButton();
         locacionespnl = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         ciudadtxt = new javax.swing.JTextField();
@@ -216,10 +259,10 @@ public class Ventana extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1011, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,23 +272,33 @@ public class Ventana extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        deptoempcmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-selecionar departamento-" }));
         deptoempcmb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deptoempcmbActionPerformed(evt);
             }
         });
 
+        managerempcmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-selecionar jefe-" }));
         managerempcmb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 managerempcmbActionPerformed(evt);
             }
         });
 
+        puestocmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-selecionar puesto-" }));
+
         jLabel8.setText("Puesto:");
 
-        jLabel10.setText("Manager:");
+        jLabel10.setText("Jefe:");
 
         jLabel11.setText("Departamento:");
+
+        comlbl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comlblActionPerformed(evt);
+            }
+        });
 
         jLabel22.setText("Comision:");
 
@@ -260,15 +313,13 @@ public class Ventana extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addComponent(jLabel10)
-                                    .addGap(29, 29, 29))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel11)
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel11))
                                 .addGap(29, 29, 29)))
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(managerempcmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -307,7 +358,7 @@ public class Ventana extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(deptoempcmb, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jLabel7.setText("Telefono:");
@@ -330,9 +381,9 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
 
-        employeeIDlbl.setText("jLabel12");
-
         jLabel3.setText("ID:");
+
+        jLabel24.setText("Contratacion:");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -346,22 +397,25 @@ public class Ventana extends javax.swing.JFrame {
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(employeeIDlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 211, Short.MAX_VALUE))
+                        .addGap(0, 231, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(30, 30, 30)))
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(empNamelbl, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
                             .addComponent(emaillbl, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(phonelbl, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lastNamelbl)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(dchcontratacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lastNamelbl)
+                            .addComponent(dchcontratacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -387,12 +441,19 @@ public class Ventana extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(phonelbl, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(dchcontratacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(dchcontratacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(4, 4, 4))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel24)
+                        .addGap(19, 19, 19))))
         );
 
         eliminarcmdemp.setText("Eliminar");
+        eliminarcmdemp.setEnabled(false);
 
         insertarcmdemp.setText("Insertar");
         insertarcmdemp.addActionListener(new java.awt.event.ActionListener() {
@@ -402,6 +463,7 @@ public class Ventana extends javax.swing.JFrame {
         });
 
         actualizarcmdemp.setText("Actualizar");
+        actualizarcmdemp.setEnabled(false);
         actualizarcmdemp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 actualizarcmdempActionPerformed(evt);
@@ -423,7 +485,7 @@ public class Ventana extends javax.swing.JFrame {
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(79, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(insertarcmdemp, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(actualizarcmdemp, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -432,32 +494,44 @@ public class Ventana extends javax.swing.JFrame {
                 .addGap(66, 66, 66))
         );
 
-        buscarcmd.setText("Buscar");
+        buscarcmdemp.setText("Consultar");
+        buscarcmdemp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarcmdempActionPerformed(evt);
+            }
+        });
 
-        jLabel2.setText("Buscar:");
+        jLabel2.setText("Registro:");
+
+        empladoscmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-selecionar empleado-" }));
+        empladoscmb.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                empladoscmbItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
-                .addGap(183, 183, 183)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buscartxt, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addComponent(buscarcmd, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(209, 209, 209)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(empladoscmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(30, 30, 30)
+                .addComponent(buscarcmdemp, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(38, 38, 38)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buscartxt, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(buscarcmd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(31, 31, 31))
+                    .addComponent(buscarcmdemp, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(empladoscmb, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28))
         );
 
         javax.swing.GroupLayout employeespnlLayout = new javax.swing.GroupLayout(employeespnl);
@@ -474,19 +548,17 @@ public class Ventana extends javax.swing.JFrame {
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         employeespnlLayout.setVerticalGroup(
             employeespnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(employeespnlLayout.createSequentialGroup()
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(employeespnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(employeespnlLayout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addGroup(employeespnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         jTabbedPane1.addTab("Empleados", employeespnl);
@@ -502,8 +574,6 @@ public class Ventana extends javax.swing.JFrame {
         jLabel14.setText("Manager:");
 
         jLabel15.setText("Locacion:");
-
-        deptoIDlbl.setText("jLabel13");
 
         jLabel12.setText("ID:");
 
@@ -551,7 +621,7 @@ public class Ventana extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(locationcmb, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         insertarcmddep.setText("Insertar");
@@ -590,7 +660,7 @@ public class Ventana extends javax.swing.JFrame {
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(28, Short.MAX_VALUE)
                 .addComponent(insertarcmddep, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(actualizarcmddep, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -599,24 +669,63 @@ public class Ventana extends javax.swing.JFrame {
                 .addGap(88, 88, 88))
         );
 
+        jLabel9.setText("Buscar:");
+
+        buscarcmddep.setText("Buscar");
+        buscarcmddep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarcmddepActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(214, 214, 214)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buscardeptxt, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(buscarcmddep, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(324, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buscardeptxt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(buscarcmddep, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31))
+        );
+
         javax.swing.GroupLayout deptospnlLayout = new javax.swing.GroupLayout(deptospnl);
         deptospnl.setLayout(deptospnlLayout);
         deptospnlLayout.setHorizontalGroup(
             deptospnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(deptospnlLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(425, Short.MAX_VALUE))
+                .addGroup(deptospnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(deptospnlLayout.createSequentialGroup()
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         deptospnlLayout.setVerticalGroup(
             deptospnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(deptospnlLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(deptospnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jTabbedPane1.addTab("Departamentos", deptospnl);
@@ -768,7 +877,7 @@ public class Ventana extends javax.swing.JFrame {
                 .addComponent(actualizarcmddep1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(eliminarcmddep1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(185, Short.MAX_VALUE))
+                .addContainerGap(194, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout locacionespnlLayout = new javax.swing.GroupLayout(locacionespnl);
@@ -806,7 +915,7 @@ public class Ventana extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1025, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 14, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
@@ -835,14 +944,31 @@ public class Ventana extends javax.swing.JFrame {
                                 sqlFecha, getJobId(),
                                 Float.parseFloat(slrlbl.getText()),
                                 Float.parseFloat(comlbl.getText()),
-                                getManagerEmpId(), getDepartmentId());
+                                getManagerEmpId(), getDepartmentId());           
+            
+            employees = querySelectEmp.getResultList();     
         } catch (SQLException ex) {
-            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Ventana.class.getName()).log(Level
+                    .SEVERE, null, ex);
         }
     }//GEN-LAST:event_insertarcmdempActionPerformed
 
     private void actualizarcmdempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarcmdempActionPerformed
-        // TODO add your handling code here:
+            EmployeeInterface employee = new EmployeeInterface();
+        try {
+            java.util.Date fecha = dchcontratacion.getDate();
+            java.sql.Date sqlFecha = new java.sql.Date(fecha.getTime());
+            employee.updateEmployee(currentEmployee.getEmployeeId(), empNamelbl.getText(),
+                                lastNamelbl.getText(), emaillbl.getText(),
+                                phonelbl.getText(), sqlFecha, getJobId(),
+                                Float.parseFloat(slrlbl.getText()),
+                                Float.parseFloat(comlbl.getText()),
+                                getManagerEmpId(), getDepartmentId());           
+            
+            employees = querySelectEmp.getResultList();     
+        } catch (SQLException ex) {
+            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_actualizarcmdempActionPerformed
 
     private void insertarcmddepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarcmddepActionPerformed
@@ -902,6 +1028,79 @@ public class Ventana extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_estadotxtActionPerformed
 
+    private void buscarcmdempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarcmdempActionPerformed
+        EntityManager em = emf.createEntityManager();    
+        try {
+            Query queryEmp = em
+                    .createNamedQuery("ViewEmployee.findByEmployeeId")
+                    .setParameter("employeeId", getEmployeeId());
+            currentEmployee = (ViewEmployee) queryEmp.getSingleResult();
+            employeeIDlbl.setText(currentEmployee.getEmployeeId().toString());
+            empNamelbl.setText(currentEmployee.getFirstName());
+            lastNamelbl.setText(currentEmployee.getLastName());
+            emaillbl.setText(currentEmployee.getEmail());
+            phonelbl.setText(currentEmployee.getPhoneNumber());
+            slrlbl.setText(currentEmployee.getSalary()
+                            .toString());
+            dchcontratacion.setDate(currentEmployee
+                            .getHireDate());
+            deptoempcmb.setSelectedIndex(findDepartmentIndex(currentEmployee
+                            .getDepartmentId()));
+            managerempcmb.setSelectedIndex(findManagerEmpIndex(currentEmployee
+                            .getManagerId()));
+            puestocmb.setSelectedIndex(findJobIndex(currentEmployee
+                            .getJobId()));
+            
+            actualizarcmdemp.setEnabled(true);
+            eliminarcmdemp.setEnabled(true);
+            insertarcmdemp.setEnabled(false);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No se encontro el empleado");
+        }
+        if(!(currentEmployee.getCommissionPct() == null)) {
+                comlbl.setText(currentEmployee.getCommissionPct().toString());
+            } else {
+                comlbl.setText("");
+            }
+
+    }//GEN-LAST:event_buscarcmdempActionPerformed
+
+    private void comlblActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comlblActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comlblActionPerformed
+
+    private void buscarcmddepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarcmddepActionPerformed
+        EntityManager em = emf.createEntityManager();    
+        ViewDepartment department = new ViewDepartment();
+        Query queryDep = em
+                .createNamedQuery("ViewDepartment.findByDepartmentName")
+                .setParameter("departmentName", buscardeptxt.getText());
+        department = (ViewDepartment) queryDep
+                .getSingleResult();
+        deptoIDlbl.setText(department.getDepartmentId()
+                .toString());
+        deptoNametxt.setText(department.getDepartmentName());
+    }//GEN-LAST:event_buscarcmddepActionPerformed
+
+    private void empladoscmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_empladoscmbItemStateChanged
+        if (empladoscmb.getSelectedIndex() == 0){
+            actualizarcmdemp.setEnabled(false);
+            eliminarcmdemp.setEnabled(false);
+            insertarcmdemp.setEnabled(true);    
+            employeeIDlbl.setText("");
+            empNamelbl.setText("");
+            lastNamelbl.setText("");
+            emaillbl.setText("");
+            phonelbl.setText("");
+            slrlbl.setText("");
+            dchcontratacion.setCalendar(null);
+            deptoempcmb.setSelectedIndex(0);
+            managerempcmb.setSelectedIndex(0);
+            puestocmb.setSelectedIndex(0);
+        } else {
+        }
+    }//GEN-LAST:event_empladoscmbItemStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -941,8 +1140,9 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JButton actualizarcmddep;
     private javax.swing.JButton actualizarcmddep1;
     private javax.swing.JButton actualizarcmdemp;
-    private javax.swing.JButton buscarcmd;
-    private javax.swing.JTextField buscartxt;
+    private javax.swing.JButton buscarcmddep;
+    private javax.swing.JButton buscarcmdemp;
+    private javax.swing.JTextField buscardeptxt;
     private javax.swing.JTextField ciudadtxt;
     private javax.swing.JTextField comlbl;
     private javax.swing.JTextField cpostaltxt;
@@ -957,6 +1157,7 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JButton eliminarcmdemp;
     private javax.swing.JTextField emaillbl;
     private javax.swing.JTextField empNamelbl;
+    private javax.swing.JComboBox<String> empladoscmb;
     private javax.swing.JLabel employeeIDlbl;
     private javax.swing.JPanel employeespnl;
     private javax.swing.JTextField estadotxt;
@@ -978,12 +1179,15 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;

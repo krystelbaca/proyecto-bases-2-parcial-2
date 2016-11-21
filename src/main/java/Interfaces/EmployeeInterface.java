@@ -41,23 +41,25 @@ public class EmployeeInterface {
         callstm.close();
     }
 
-    public void updateLocation(String firstName, String lastName, 
-                            String email, String phoneNumber, 
-                            java.sql.Date hireDate, String jobId,
-                            Float salary, Float commissionPct,
-                            Integer managerId, Short departmentId) throws SQLException{
-        String sql = "{ call update_employee(?,?,?,?,?,?,?,?,?,?)}";
+    public void updateEmployee(Integer employeeId, String firstName, 
+                            String lastName, String email, 
+                            String phoneNumber, java.sql.Date hireDate, 
+                            String jobId, Float salary, 
+                            Float commissionPct, Integer managerId, 
+                            Short departmentId) throws SQLException{
+        String sql = "{ call update_employee(?,?,?,?,?,?,?,?,?,?,?)}";
         CallableStatement callstm = con.prepareCall(sql);
-        callstm.setString(1, firstName);
-        callstm.setString(2, lastName);
-        callstm.setString(3, email);
-        callstm.setString(4, phoneNumber);
-        callstm.setDate(5, hireDate);
-        callstm.setString(6, jobId);
-        callstm.setFloat(7, salary);
-        callstm.setFloat(8, commissionPct);
-        callstm.setInt(9, managerId);
-        callstm.setShort(10, departmentId);
+        callstm.setInt(1, employeeId);
+        callstm.setString(2, firstName);
+        callstm.setString(3, lastName);
+        callstm.setString(4, email);
+        callstm.setString(5, phoneNumber);
+        callstm.setDate(6, hireDate);
+        callstm.setString(7, jobId);
+        callstm.setFloat(8, salary);
+        callstm.setFloat(9, commissionPct);
+        callstm.setInt(10, managerId);
+        callstm.setShort(11, departmentId);
         callstm.execute();
         callstm.close();
     }    
