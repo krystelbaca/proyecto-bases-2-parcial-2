@@ -26,24 +26,35 @@ public class DepartmentInterface{
         callstm.setInt(3, locationId);
         callstm.execute();
         callstm.close();
+        updateDatabase();
     }
 
-    public void updateDepartment(Integer departmentId, String departmentName, 
+    public void updateDepartment(Short departmentId, String departmentName, 
                                  Integer managerId, Short locationId) throws SQLException{
-        String sql = "{ call update_department(?,?,?)}";
+        String sql = "{ call update_department(?,?,?,?)}";
         CallableStatement callstm = con.prepareCall(sql);
-        callstm.setString(1, departmentName);
-        callstm.setInt(2, managerId);
-        callstm.setInt(3, locationId);
+        callstm.setShort(1, departmentId);        
+        callstm.setString(2, departmentName);
+        callstm.setInt(3, managerId);
+        callstm.setInt(4, locationId);
         callstm.execute();
         callstm.close();
+        updateDatabase();
     }    
     
-    public void deleteDepartment(Integer employee) throws SQLException{
-        String sql = "{ call delete_employee(?)}";
+    public void deleteDepartment(Short departmentId) throws SQLException{
+        String sql = "{ call delete_department(?)}";
         CallableStatement callstm = con.prepareCall(sql);
-        callstm.setInt(1, employee);
+        callstm.setShort(1, departmentId);
         callstm.execute();
         callstm.close();
+        updateDatabase();
     }
+    
+    public void updateDatabase() throws SQLException{
+        String sqlUpdate = "{ call DBMS_MVIEW.REFRESH('view_all_departments')}";
+        CallableStatement callstmUpdate = con.prepareCall(sqlUpdate);
+        callstmUpdate.executeQuery();
+        callstmUpdate.close();
+    }    
 }
