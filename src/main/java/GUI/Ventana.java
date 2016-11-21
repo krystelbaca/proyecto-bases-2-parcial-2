@@ -52,6 +52,7 @@ public class Ventana extends javax.swing.JFrame {
     List<Country> countries = querySelectCou.getResultList();        
     
     ViewEmployee currentEmployee = new ViewEmployee();
+    
     public Ventana() {
         initComponents();
         
@@ -97,48 +98,88 @@ public class Ventana extends javax.swing.JFrame {
         em.close();
     }
     
+/**
+ * Busca un employeeId de la lista de employees usando como
+ * parametro el index del combobox.
+ * 
+ */
     public Integer getEmployeeId(){
         Integer indexSelected = empladoscmb.getSelectedIndex();
         Integer employeeId = employees.get(indexSelected).getEmployeeId();
         return employeeId-1;
     }
     
-    public Integer getManagerId(){
+/**
+ * Busca un manager id de la lista de managers de department usando como
+ * parametro el index del combobox.
+ * 
+ */ 
+    public Integer getManagerDepId(){
         Integer indexSelected = managercmb.getSelectedIndex();
         Integer managerId = employees.get(indexSelected).getEmployeeId();
         return managerId;
     }
     
+/**
+ * Busca un manager id de la lista de managers de employees usando como
+ * parametro el index del combobox.
+ * 
+ */ 
     public Integer getManagerEmpId(){
         Integer indexSelected = managerempcmb.getSelectedIndex();
         Integer managerEmpId = employees.get(indexSelected).getEmployeeId();
         return managerEmpId;
     } 
     
+/**
+ * Busca un location id de la lista de locations usando como
+ * parametro el index del combobox.
+ * 
+ */
     public Short getLocationId(){
         Integer indexSelected = locationcmb.getSelectedIndex();
         Short employeeId = locations.get(indexSelected).getLocationId();
         return employeeId;
     } 
     
+/**
+ * Busca un department id de la lista de managers de department usando como
+ * parametro el index del combobox.
+ * 
+ */ 
     public Short getDepartmentId(){
         Integer indexSelected = deptoempcmb.getSelectedIndex();
         Short departmentId = departments.get(indexSelected).getDepartmentId();
         return departmentId;
     } 
-    
+
+/**
+ * Busca un job id de la lista de jobs usando como
+ * parametro el index del combobox.
+ * 
+ */     
     public String getJobId(){
         Integer indexSelected = puestocmb.getSelectedIndex();
         String jobId = jobs.get(indexSelected).getJobId();
         return jobId;
     } 
-    
+
+/**
+ * Busca un country id de la lista de countries usando como
+ * parametro el index del combobox.
+ * 
+ */         
     public String getContryId(){
         Integer indexSelected = puestocmb.getSelectedIndex();
         String countryId = countries.get(indexSelected).getCountryId();
         return countryId;
     } 
     
+/**
+ * Busca el index en el combobox de departamentos usando como
+ * parametro el department id.
+ * 
+ */     
     public Integer findDepartmentIndex(Short departmentId){
         for(Integer x=0; x<departments.size(); x++) {
             if (Objects.equals(departmentId, departments.get(x)
@@ -149,6 +190,11 @@ public class Ventana extends javax.swing.JFrame {
         return -1;
     }
     
+/**
+ * Busca el index en el combobox de managers de employees usando como
+ * parametro el manager id de un employee.
+ * 
+ */ 
     public Integer findManagerEmpIndex(Integer managerId){
         for(Integer x=0; x<employees.size(); x++) {
             if (Objects.equals(managerId, employees.get(x).getEmployeeId())) {
@@ -158,6 +204,11 @@ public class Ventana extends javax.swing.JFrame {
         return -1;
     }  
     
+/**
+ * Busca el index en el combobox de jobs usando como
+ * parametro el job id de un employee.
+ * 
+ */ 
     public Integer findJobIndex(String JobId){
         for(Integer x=0; x<jobs.size(); x++) {
             if (Objects.equals(JobId, jobs.get(x).getJobId())) {
@@ -299,7 +350,7 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
 
-        managerempcmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-selecionar jefe-" }));
+        managerempcmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-selecionar manager-" }));
         managerempcmb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 managerempcmbActionPerformed(evt);
@@ -310,7 +361,7 @@ public class Ventana extends javax.swing.JFrame {
 
         jLabel8.setText("Puesto:");
 
-        jLabel10.setText("Jefe:");
+        jLabel10.setText("Manager:");
 
         jLabel11.setText("Departamento:");
 
@@ -395,29 +446,27 @@ public class Ventana extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(employeeIDlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 231, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(30, 30, 30)))
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(empNamelbl, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
-                            .addComponent(emaillbl, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(phonelbl, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lastNamelbl)
-                            .addComponent(dchcontratacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(30, 30, 30))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(employeeIDlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(empNamelbl, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                        .addComponent(emaillbl, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(phonelbl, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(lastNamelbl)
+                        .addComponent(dchcontratacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -570,6 +619,9 @@ public class Ventana extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Empleados", employeespnl);
 
+        locationcmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-selecionar locacion-" }));
+
+        managercmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-selecionar manager-" }));
         managercmb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 managercmbActionPerformed(evt);
@@ -596,17 +648,19 @@ public class Ventana extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(managercmb, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deptoIDlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(deptoNametxt, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(locationcmb, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(locationcmb, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(jLabel12)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(deptoIDlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(deptoNametxt, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -761,31 +815,28 @@ public class Ventana extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                 .addContainerGap(29, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel16)
                     .addComponent(jLabel19)
                     .addComponent(jLabel17)
                     .addComponent(jLabel18))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(direcciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cpostaltxt, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(ciudadtxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(locationIDlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(direcciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cpostaltxt, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(ciudadtxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel16)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(locationIDlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(54, 54, 54)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(locationIDlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(direcciontxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -797,7 +848,7 @@ public class Ventana extends javax.swing.JFrame {
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ciudadtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(192, Short.MAX_VALUE))
         );
 
         jLabel21.setText("Pais:");
@@ -986,7 +1037,7 @@ public class Ventana extends javax.swing.JFrame {
             DepartmentInterface department = new DepartmentInterface();
         try {
             department.addDepartment(deptoNametxt.getText(),
-                                     getManagerId(),
+                                     getManagerDepId(),
                                      getLocationId());
         } catch (SQLException ex) {
             Logger.getLogger(Ventana.class.getName())
@@ -1077,9 +1128,8 @@ public class Ventana extends javax.swing.JFrame {
         ViewDepartment department = new ViewDepartment();
         Query queryDep = em
                 .createNamedQuery("ViewDepartment.findByDepartmentId")
-                .setParameter("departmentId", getManagerId());
-        department = (ViewDepartment) queryDep
-                .getSingleResult();
+                .setParameter("departmentId", getManagerDepId());
+        department = (ViewDepartment) queryDep.getSingleResult();
         deptoIDlbl.setText(department.getDepartmentId()
                 .toString());
         deptoNametxt.setText(department.getDepartmentName());
