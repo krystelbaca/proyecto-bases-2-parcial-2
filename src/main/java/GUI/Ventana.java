@@ -99,7 +99,7 @@ public class Ventana extends javax.swing.JFrame {
     public Integer getEmployeeId(){
         Integer indexSelected = empladoscmb.getSelectedIndex();
         Integer employeeId = employees.get(indexSelected).getEmployeeId();
-        return employeeId;
+        return employeeId-1;
     }
     
     public Integer getManagerId(){
@@ -165,6 +165,25 @@ public class Ventana extends javax.swing.JFrame {
         }
         return -1;
     }        
+    
+    public void cleanScreen(){
+            actualizarcmdemp.setEnabled(false);
+            eliminarcmdemp.setEnabled(false);
+            insertarcmdemp.setEnabled(true);    
+            employeeIDlbl.setText("");
+            empNamelbl.setText("");
+            lastNamelbl.setText("");
+            emaillbl.setText("");
+            phonelbl.setText("");
+            slrlbl.setText("");
+            comlbl.setText("");
+            dchcontratacion.setCalendar(null);
+            deptoempcmb.setSelectedIndex(0);
+            managerempcmb.setSelectedIndex(0);
+            puestocmb.setSelectedIndex(0);
+            EntityManager em = emf.createEntityManager();    
+            employees = querySelectEmp.getResultList();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -294,12 +313,6 @@ public class Ventana extends javax.swing.JFrame {
 
         jLabel11.setText("Departamento:");
 
-        comlbl.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comlblActionPerformed(evt);
-            }
-        });
-
         jLabel22.setText("Comision:");
 
         jLabel23.setText("Salario:");
@@ -365,21 +378,9 @@ public class Ventana extends javax.swing.JFrame {
 
         jLabel6.setText("Email:");
 
-        lastNamelbl.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lastNamelblActionPerformed(evt);
-            }
-        });
-
         jLabel5.setText("Apellidos:");
 
         jLabel4.setText("Nombre:");
-
-        empNamelbl.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                empNamelblActionPerformed(evt);
-            }
-        });
 
         jLabel3.setText("ID:");
 
@@ -454,6 +455,11 @@ public class Ventana extends javax.swing.JFrame {
 
         eliminarcmdemp.setText("Eliminar");
         eliminarcmdemp.setEnabled(false);
+        eliminarcmdemp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarcmdempActionPerformed(evt);
+            }
+        });
 
         insertarcmdemp.setText("Insertar");
         insertarcmdemp.addActionListener(new java.awt.event.ActionListener() {
@@ -930,10 +936,6 @@ public class Ventana extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void lastNamelblActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastNamelblActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lastNamelblActionPerformed
-
     private void insertarcmdempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarcmdempActionPerformed
             EmployeeInterface employee = new EmployeeInterface();
         try {
@@ -946,7 +948,7 @@ public class Ventana extends javax.swing.JFrame {
                                 Float.parseFloat(comlbl.getText()),
                                 getManagerEmpId(), getDepartmentId());           
             
-            employees = querySelectEmp.getResultList();     
+            cleanScreen();
         } catch (SQLException ex) {
             Logger.getLogger(Ventana.class.getName()).log(Level
                     .SEVERE, null, ex);
@@ -954,18 +956,19 @@ public class Ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_insertarcmdempActionPerformed
 
     private void actualizarcmdempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarcmdempActionPerformed
+            EntityManager em = emf.createEntityManager();
             EmployeeInterface employee = new EmployeeInterface();
         try {
             java.util.Date fecha = dchcontratacion.getDate();
             java.sql.Date sqlFecha = new java.sql.Date(fecha.getTime());
-            employee.updateEmployee(currentEmployee.getEmployeeId(), empNamelbl.getText(),
-                                lastNamelbl.getText(), emaillbl.getText(),
-                                phonelbl.getText(), sqlFecha, getJobId(),
+            employee.updateEmployee(currentEmployee.getEmployeeId(), 
+                                empNamelbl.getText(),lastNamelbl.getText(),
+                                emaillbl.getText(), phonelbl.getText(),
+                                sqlFecha, getJobId(),
                                 Float.parseFloat(slrlbl.getText()),
                                 Float.parseFloat(comlbl.getText()),
-                                getManagerEmpId(), getDepartmentId());           
-            
-            employees = querySelectEmp.getResultList();     
+                                getManagerEmpId(), getDepartmentId());
+            cleanScreen();
         } catch (SQLException ex) {
             Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1016,10 +1019,6 @@ public class Ventana extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_deptoempcmbActionPerformed
 
-    private void empNamelblActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empNamelblActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_empNamelblActionPerformed
-
     private void paiscmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paiscmbActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_paiscmbActionPerformed
@@ -1065,10 +1064,6 @@ public class Ventana extends javax.swing.JFrame {
 
     }//GEN-LAST:event_buscarcmdempActionPerformed
 
-    private void comlblActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comlblActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comlblActionPerformed
-
     private void buscarcmddepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarcmddepActionPerformed
         EntityManager em = emf.createEntityManager();    
         ViewDepartment department = new ViewDepartment();
@@ -1084,22 +1079,21 @@ public class Ventana extends javax.swing.JFrame {
 
     private void empladoscmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_empladoscmbItemStateChanged
         if (empladoscmb.getSelectedIndex() == 0){
-            actualizarcmdemp.setEnabled(false);
-            eliminarcmdemp.setEnabled(false);
-            insertarcmdemp.setEnabled(true);    
-            employeeIDlbl.setText("");
-            empNamelbl.setText("");
-            lastNamelbl.setText("");
-            emaillbl.setText("");
-            phonelbl.setText("");
-            slrlbl.setText("");
-            dchcontratacion.setCalendar(null);
-            deptoempcmb.setSelectedIndex(0);
-            managerempcmb.setSelectedIndex(0);
-            puestocmb.setSelectedIndex(0);
+            cleanScreen();
         } else {
         }
     }//GEN-LAST:event_empladoscmbItemStateChanged
+
+    private void eliminarcmdempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarcmdempActionPerformed
+            EntityManager em = emf.createEntityManager();
+            EmployeeInterface employee = new EmployeeInterface();
+        try {
+            employee.deleteEmployee(currentEmployee.getEmployeeId());     
+            cleanScreen();
+        } catch (SQLException ex) {
+            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_eliminarcmdempActionPerformed
 
     /**
      * @param args the command line arguments

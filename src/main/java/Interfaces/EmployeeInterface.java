@@ -39,6 +39,7 @@ public class EmployeeInterface {
         callstm.setShort(10, departmentId);
         callstm.execute();
         callstm.close();
+        updateDatabase();
     }
 
     public void updateEmployee(Integer employeeId, String firstName, 
@@ -62,13 +63,22 @@ public class EmployeeInterface {
         callstm.setShort(11, departmentId);
         callstm.execute();
         callstm.close();
+        updateDatabase();
     }    
     
-    public void deleteLocation(Integer employeeId) throws SQLException{
-        String sql = "{ call delete_employee(?,?)}";
+    public void deleteEmployee(Integer employeeId) throws SQLException{
+        String sql = "{ call delete_employee(?)}";
         CallableStatement callstm = con.prepareCall(sql);
         callstm.setInt(1, employeeId);
         callstm.execute();
         callstm.close();
-    }    
+        updateDatabase();
+    }
+    
+    public void updateDatabase() throws SQLException{
+        String sqlUpdate = "{ call DBMS_MVIEW.REFRESH('view_all_employees')}";
+        CallableStatement callstmUpdate = con.prepareCall(sqlUpdate);
+        callstmUpdate.executeQuery();
+        callstmUpdate.close();
+    }
 }
