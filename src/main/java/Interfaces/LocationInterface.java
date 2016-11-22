@@ -26,20 +26,6 @@ public class LocationInterface{
      
     Connection con = OracleConnection.getInstance().getCon();
 
-    public java.util.List<String> getLocations(){
-    try {
-        ArrayList<String> userList = new ArrayList<>();
-        Statement st = con.createStatement();
-        ResultSet rs = st.executeQuery("SELECT location_id from all_locations_view");
-        while (rs.next()) {
-            userList.add(rs.getString(1));
-        }
-        return userList;
-    } catch (SQLException ex) {
-        System.out.println(ex);
-        return null;
-    }
-}    
     public void addLocation(String streetAddress, String postalCode, 
                             String city, String stateProvince, String countryId) throws SQLException{
         String sql = "{ call add_location(?,?,?,?,?)}";
@@ -54,11 +40,11 @@ public class LocationInterface{
         updateDatabase();
     }
 
-    public void updateLocation(Integer locationId, String streetAddress, String postalCode, 
+    public void updateLocation(Short locationId, String streetAddress, String postalCode, 
                             String city, String stateProvince, String countryId) throws SQLException{
         String sql = "{ call update_location(?,?,?,?,?,?)}";
         CallableStatement callstm = con.prepareCall(sql);
-        callstm.setInt(1, locationId);
+        callstm.setShort(1, locationId);
         callstm.setString(2, streetAddress);
         callstm.setString(3, postalCode);
         callstm.setString(4, city);
@@ -69,10 +55,10 @@ public class LocationInterface{
         updateDatabase();
     }    
     
-    public void deleteLocation(Integer locationId) throws SQLException{
+    public void deleteLocation(Short locationId) throws SQLException{
         String sql = "{ call delete_location(?)}";
         CallableStatement callstm = con.prepareCall(sql);
-        callstm.setInt(1, locationId);
+        callstm.setShort(1, locationId);
         callstm.execute();
         callstm.close();
         updateDatabase();

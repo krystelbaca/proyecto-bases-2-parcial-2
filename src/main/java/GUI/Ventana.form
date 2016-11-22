@@ -25,69 +25,18 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel3" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jTabbedPane1" min="-2" pref="1025" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  </Group>
-              </Group>
-              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <Component id="jTabbedPane1" min="-2" pref="1025" max="-2" attributes="0"/>
+              <EmptySpace pref="44" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <Component id="jTabbedPane1" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-          </Group>
+          <Component id="jTabbedPane1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanel3">
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" min="-2" pref="1011" max="-2" attributes="0"/>
-                  <EmptySpace pref="18" max="32767" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" min="-2" pref="222" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-      <SubComponents>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
-          <AuxValues>
-            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-          </AuxValues>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-          <SubComponents>
-            <Component class="javax.swing.JTextArea" name="jTextArea1">
-              <Properties>
-                <Property name="columns" type="int" value="20"/>
-                <Property name="rows" type="int" value="5"/>
-              </Properties>
-            </Component>
-          </SubComponents>
-        </Container>
-      </SubComponents>
-    </Container>
     <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
@@ -945,9 +894,6 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="locationIDlbl">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="jLabel17"/>
-                  </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel16">
                   <Properties>
@@ -1018,7 +964,9 @@
                 <Component class="javax.swing.JComboBox" name="paisCmb">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="0"/>
+                      <StringArray count="1">
+                        <StringItem index="0" value="-seleccionar pais-"/>
+                      </StringArray>
                     </Property>
                     <Property name="toolTipText" type="java.lang.String" value=""/>
                   </Properties>
@@ -1049,9 +997,9 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="insertarcmddep1" alignment="0" max="32767" attributes="0"/>
-                              <Component id="actualizarcmddep1" alignment="0" max="32767" attributes="0"/>
-                              <Component id="eliminarcmddep1" alignment="1" min="-2" pref="121" max="-2" attributes="0"/>
+                              <Component id="insertarCmdLoc" alignment="0" max="32767" attributes="0"/>
+                              <Component id="actualizarCmdLoc" alignment="0" max="32767" attributes="0"/>
+                              <Component id="eliminarCmdLoc" alignment="1" min="-2" pref="121" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="332" max="32767" attributes="0"/>
                       </Group>
@@ -1061,39 +1009,41 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
-                          <Component id="insertarcmddep1" min="-2" pref="39" max="-2" attributes="0"/>
+                          <Component id="insertarCmdLoc" min="-2" pref="39" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="actualizarcmddep1" min="-2" pref="41" max="-2" attributes="0"/>
+                          <Component id="actualizarCmdLoc" min="-2" pref="41" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="eliminarcmddep1" min="-2" pref="41" max="-2" attributes="0"/>
+                          <Component id="eliminarCmdLoc" min="-2" pref="41" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JButton" name="eliminarcmddep1">
+                <Component class="javax.swing.JButton" name="eliminarCmdLoc">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Eliminar"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="eliminarcmddep1ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="eliminarCmdLocActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="actualizarcmddep1">
+                <Component class="javax.swing.JButton" name="actualizarCmdLoc">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Actualizar"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="actualizarcmddep1ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="actualizarCmdLocActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="insertarcmddep1">
+                <Component class="javax.swing.JButton" name="insertarCmdLoc">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Insertar"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="insertarcmddep1ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="insertarCmdLocActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>

@@ -17,10 +17,10 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import Interfaces.DepartmentInterface;
 import Interfaces.EmployeeInterface;
+import Interfaces.LocationInterface;
 import entidades.Country;
 import entidades.Job;
 import entidades.ViewDepartment;
-import java.sql.CallableStatement;
 import java.util.ArrayList;
 import java.util.Objects;
 import javax.swing.JOptionPane;
@@ -141,9 +141,9 @@ public class Ventana extends javax.swing.JFrame {
  * 
  */
     public Short getLocationId(){
-        Integer indexSelected = searchLocationsCmb.getSelectedIndex();
-        Short employeeId = locations.get(indexSelected).getLocationId();
-        return employeeId;
+        Integer indexSelected = (searchLocationsCmb.getSelectedIndex())-1;
+        Short locationId = locations.get(indexSelected).getLocationId();
+        return locationId;
     } 
     
 /**
@@ -196,7 +196,7 @@ public class Ventana extends javax.swing.JFrame {
  * 
  */         
     public String getContryId(){
-        Integer indexSelected = paisCmb.getSelectedIndex();
+        Integer indexSelected = (paisCmb.getSelectedIndex())-1;
         String countryId = countries.get(indexSelected).getCountryId();
         return countryId;
     } 
@@ -297,13 +297,22 @@ public class Ventana extends javax.swing.JFrame {
             locationCmb.setSelectedIndex(0);
     }
         
+        public void cleanTabLocation(){
+            insertarCmdLoc.setEnabled(true);
+            actualizarCmdLoc.setEnabled(false);
+            eliminarCmdLoc.setEnabled(false);    
+            locationIDlbl.setText("");
+            direccionTxt.setText("");
+            cpostaltxt.setText("");
+            ciudadtxt.setText("");
+            estadotxt.setText("");
+            paisCmb.setSelectedIndex(0);
+    }        
+        
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         employeespnl = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -372,36 +381,15 @@ public class Ventana extends javax.swing.JFrame {
         estadotxt = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
-        eliminarcmddep1 = new javax.swing.JButton();
-        actualizarcmddep1 = new javax.swing.JButton();
-        insertarcmddep1 = new javax.swing.JButton();
+        eliminarCmdLoc = new javax.swing.JButton();
+        actualizarCmdLoc = new javax.swing.JButton();
+        insertarCmdLoc = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         searchLocationsCmb = new javax.swing.JComboBox<String>();
         jLabel25 = new javax.swing.JLabel();
         buscarCmdLoc = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1011, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
 
         deptoempcmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-selecionar departamento-" }));
         deptoempcmb.addActionListener(new java.awt.event.ActionListener() {
@@ -877,8 +865,6 @@ public class Ventana extends javax.swing.JFrame {
 
         jLabel17.setText("Direccion:");
 
-        locationIDlbl.setText("jLabel17");
-
         jLabel16.setText("ID:");
 
         jLabel18.setText("Codigo Postal:");
@@ -930,6 +916,7 @@ public class Ventana extends javax.swing.JFrame {
 
         jLabel21.setText("Pais:");
 
+        paisCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-seleccionar pais-" }));
         paisCmb.setToolTipText("");
         paisCmb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -977,24 +964,26 @@ public class Ventana extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        eliminarcmddep1.setText("Eliminar");
-        eliminarcmddep1.addActionListener(new java.awt.event.ActionListener() {
+        eliminarCmdLoc.setText("Eliminar");
+        eliminarCmdLoc.setEnabled(false);
+        eliminarCmdLoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eliminarcmddep1ActionPerformed(evt);
+                eliminarCmdLocActionPerformed(evt);
             }
         });
 
-        actualizarcmddep1.setText("Actualizar");
-        actualizarcmddep1.addActionListener(new java.awt.event.ActionListener() {
+        actualizarCmdLoc.setText("Actualizar");
+        actualizarCmdLoc.setEnabled(false);
+        actualizarCmdLoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                actualizarcmddep1ActionPerformed(evt);
+                actualizarCmdLocActionPerformed(evt);
             }
         });
 
-        insertarcmddep1.setText("Insertar");
-        insertarcmddep1.addActionListener(new java.awt.event.ActionListener() {
+        insertarCmdLoc.setText("Insertar");
+        insertarCmdLoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                insertarcmddep1ActionPerformed(evt);
+                insertarCmdLocActionPerformed(evt);
             }
         });
 
@@ -1005,20 +994,20 @@ public class Ventana extends javax.swing.JFrame {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGap(84, 84, 84)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(insertarcmddep1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(actualizarcmddep1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(eliminarcmddep1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(insertarCmdLoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(actualizarCmdLoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(eliminarCmdLoc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(332, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGap(66, 66, 66)
-                .addComponent(insertarcmddep1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(insertarCmdLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(actualizarcmddep1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(actualizarCmdLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(eliminarcmddep1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(eliminarCmdLoc, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1102,20 +1091,12 @@ public class Ventana extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1025, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(30, 30, 30))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1025, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jTabbedPane1)
         );
 
         pack();
@@ -1197,17 +1178,44 @@ public class Ventana extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_eliminarCmdDepActionPerformed
 
-    private void eliminarcmddep1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarcmddep1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_eliminarcmddep1ActionPerformed
+    private void eliminarCmdLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarCmdLocActionPerformed
+        EntityManager em = emf.createEntityManager();
+            LocationInterface location = new LocationInterface();
+        try {
+            location.deleteLocation(currentLocation.getLocationId());     
+            cleanTabLocation();
+        } catch (SQLException ex) {
+            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_eliminarCmdLocActionPerformed
 
-    private void insertarcmddep1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarcmddep1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_insertarcmddep1ActionPerformed
+    private void insertarCmdLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarCmdLocActionPerformed
+            LocationInterface location = new LocationInterface();
+        try {
+            location.addLocation(direccionTxt.getText(), cpostaltxt.getText(), 
+                                ciudadtxt.getText(), estadotxt.getText(), getContryId());
+            cleanTabDepartment();
+        } catch (SQLException ex) {
+            Logger.getLogger(Ventana.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_insertarCmdLocActionPerformed
 
-    private void actualizarcmddep1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarcmddep1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_actualizarcmddep1ActionPerformed
+    private void actualizarCmdLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarCmdLocActionPerformed
+            LocationInterface location = new LocationInterface();
+        try {
+            location.updateLocation(currentLocation.getLocationId(),
+                                    direccionTxt.getText(),
+                                    cpostaltxt.getText(), 
+                                    ciudadtxt.getText(), 
+                                    estadotxt.getText(), 
+                                    getContryId());
+            cleanTabDepartment();
+        } catch (SQLException ex) {
+            Logger.getLogger(Ventana.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_actualizarCmdLocActionPerformed
 
     private void managerDepCmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_managerDepCmbActionPerformed
         // TODO add your handling code here:
@@ -1315,7 +1323,9 @@ public class Ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_locationCmbActionPerformed
 
     private void searchLocationsCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_searchLocationsCmbItemStateChanged
-        // TODO add your handling code here:
+        if (searchLocationsCmb.getSelectedIndex() == 0){
+            cleanTabLocation();
+        }  
     }//GEN-LAST:event_searchLocationsCmbItemStateChanged
 
     private void buscarCmdLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarCmdLocActionPerformed
@@ -1333,9 +1343,9 @@ public class Ventana extends javax.swing.JFrame {
             paisCmb.setSelectedIndex(findCountryIndex(currentLocation
                             .getCountryId()));
             
-            actualizarcmdemp.setEnabled(true);
-            eliminarcmdemp.setEnabled(true);
-            insertarcmdemp.setEnabled(false);
+            insertarCmdLoc.setEnabled(false);
+            actualizarCmdLoc.setEnabled(true);
+            eliminarCmdLoc.setEnabled(true);  
         } catch (Exception e) {
         }
         if(!(currentEmployee.getCommissionPct() == null)) {
@@ -1390,7 +1400,7 @@ public class Ventana extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton actualizarCmdDep;
-    private javax.swing.JButton actualizarcmddep1;
+    private javax.swing.JButton actualizarCmdLoc;
     private javax.swing.JButton actualizarcmdemp;
     private javax.swing.JButton buscarCmdLoc;
     private javax.swing.JButton buscarcmddep;
@@ -1405,7 +1415,7 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JPanel deptospnl;
     private javax.swing.JTextField direccionTxt;
     private javax.swing.JButton eliminarCmdDep;
-    private javax.swing.JButton eliminarcmddep1;
+    private javax.swing.JButton eliminarCmdLoc;
     private javax.swing.JButton eliminarcmdemp;
     private javax.swing.JTextField emaillbl;
     private javax.swing.JTextField empNamelbl;
@@ -1414,7 +1424,7 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JPanel employeespnl;
     private javax.swing.JTextField estadotxt;
     private javax.swing.JButton insertarCmdDep;
-    private javax.swing.JButton insertarcmddep1;
+    private javax.swing.JButton insertarCmdLoc;
     private javax.swing.JButton insertarcmdemp;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1445,16 +1455,13 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField lastNamelbl;
     private javax.swing.JPanel locacionespnl;
     private javax.swing.JComboBox<String> locationCmb;
