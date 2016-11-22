@@ -852,16 +852,21 @@
                       <Component id="jPanel11" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPanel11" max="32767" attributes="0"/>
-                          <Component id="jPanel9" max="32767" attributes="0"/>
-                          <Component id="jPanel10" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="jPanel2" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jPanel11" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jPanel10" alignment="1" max="32767" attributes="0"/>
+                          <Component id="jPanel9" alignment="1" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -886,7 +891,7 @@
                               <Component id="locationIDlbl" min="-2" pref="103" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="direcciontxt" min="-2" pref="218" max="-2" attributes="0"/>
+                                      <Component id="direccionTxt" min="-2" pref="218" max="-2" attributes="0"/>
                                       <Component id="cpostaltxt" min="-2" pref="218" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="ciudadtxt" alignment="1" min="-2" pref="215" max="-2" attributes="0"/>
@@ -907,7 +912,7 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel17" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                              <Component id="direcciontxt" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="direccionTxt" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -919,7 +924,7 @@
                               <Component id="ciudadtxt" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                               <Component id="jLabel19" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="209" max="32767" attributes="0"/>
+                          <EmptySpace pref="100" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -928,8 +933,11 @@
                 <Component class="javax.swing.JTextField" name="ciudadtxt">
                 </Component>
                 <Component class="javax.swing.JTextField" name="cpostaltxt">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cpostaltxtActionPerformed"/>
+                  </Events>
                 </Component>
-                <Component class="javax.swing.JTextField" name="direcciontxt">
+                <Component class="javax.swing.JTextField" name="direccionTxt">
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel17">
                   <Properties>
@@ -976,7 +984,7 @@
                               </Group>
                           </Group>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="paiscmb" pref="173" max="32767" attributes="0"/>
+                              <Component id="paisCmb" pref="173" max="32767" attributes="0"/>
                               <Component id="estadotxt" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="126" max="-2" attributes="0"/>
@@ -993,7 +1001,7 @@
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="paiscmb" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                              <Component id="paisCmb" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                               <Component id="jLabel21" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
@@ -1007,7 +1015,7 @@
                     <Property name="text" type="java.lang.String" value="Pais:"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="paiscmb">
+                <Component class="javax.swing.JComboBox" name="paisCmb">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="0"/>
@@ -1015,7 +1023,7 @@
                     <Property name="toolTipText" type="java.lang.String" value=""/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="paiscmbActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="paisCmbActionPerformed"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -1058,7 +1066,7 @@
                           <Component id="actualizarcmddep1" min="-2" pref="41" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="eliminarcmddep1" min="-2" pref="41" max="-2" attributes="0"/>
-                          <EmptySpace pref="211" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1086,6 +1094,68 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="insertarcmddep1ActionPerformed"/>
+                  </Events>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Container class="javax.swing.JPanel" name="jPanel2">
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="214" max="-2" attributes="0"/>
+                          <Component id="jLabel25" min="-2" pref="57" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="searchLocationsCmb" min="-2" pref="351" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="buscarCmdLoc" min="-2" pref="130" max="-2" attributes="0"/>
+                          <EmptySpace pref="238" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel25" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="buscarCmdLoc" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                              <Component id="searchLocationsCmb" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JComboBox" name="searchLocationsCmb">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="1">
+                        <StringItem index="0" value="-selecionar departamento-"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="searchLocationsCmbItemStateChanged"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchLocationsCmbActionPerformed"/>
+                  </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel25">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Buscar:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="buscarCmdLoc">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Buscar"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buscarCmdLocActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>

@@ -51,6 +51,7 @@ public class LocationInterface{
         callstm.setString(5, countryId);
         callstm.execute();
         callstm.close();
+        updateDatabase();
     }
 
     public void updateLocation(Integer locationId, String streetAddress, String postalCode, 
@@ -65,6 +66,7 @@ public class LocationInterface{
         callstm.setString(6, countryId);
         callstm.execute();
         callstm.close();
+        updateDatabase();
     }    
     
     public void deleteLocation(Integer locationId) throws SQLException{
@@ -73,6 +75,13 @@ public class LocationInterface{
         callstm.setInt(1, locationId);
         callstm.execute();
         callstm.close();
+        updateDatabase();
     }    
     
+        public void updateDatabase() throws SQLException{
+        String sqlUpdate = "{ call DBMS_MVIEW.REFRESH('view_all_locations')}";
+        CallableStatement callstmUpdate = con.prepareCall(sqlUpdate);
+        callstmUpdate.executeQuery();
+        callstmUpdate.close();
+    }
 }
