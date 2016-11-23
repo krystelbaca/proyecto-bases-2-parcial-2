@@ -110,7 +110,7 @@ public class Ventana extends javax.swing.JFrame {
     public Integer getEmployeeId(){
         Integer indexSelected = empladoscmb.getSelectedIndex();
         Integer employeeId = employees.get(indexSelected).getEmployeeId();
-        return employeeId-1;
+        return employeeId;
     }
     
 /**
@@ -174,7 +174,7 @@ public class Ventana extends javax.swing.JFrame {
  * 
  */ 
     public Short getDepartmentId(){
-        Integer indexSelected = searchDepartamentosCmb.getSelectedIndex()-1;
+        Integer indexSelected = searchDepartamentosCmb.getSelectedIndex();
         Short departmentId = departments.get(indexSelected).getDepartmentId();
         return departmentId;
     } 
@@ -210,7 +210,7 @@ public class Ventana extends javax.swing.JFrame {
         for(Integer x=0; x<departments.size(); x++) {
             if (Objects.equals(departmentId, departments.get(x)
                     .getDepartmentId())) {
-                return x+1;
+                return x;
             }
         }
         return -1;
@@ -271,6 +271,7 @@ public class Ventana extends javax.swing.JFrame {
         }
         return -1;
     }      
+    
     public void cleanTabEmployee(){
             actualizarcmdemp.setEnabled(false);
             eliminarcmdemp.setEnabled(false);
@@ -308,6 +309,53 @@ public class Ventana extends javax.swing.JFrame {
             estadotxt.setText("");
             paisCmb.setSelectedIndex(0);
     }        
+        
+    public boolean validateTabEmployee(){
+            if (empNamelbl.getText() == "") {
+                return false;
+            } else {
+                if (lastNamelbl.getText() == "") {
+                    return false;
+                } else {
+                    if (emaillbl.getText() == "") {
+                        return false;
+                    } else {
+                        if (phonelbl.getText() == "") {
+                            return false;
+                        } else {
+                            if (slrlbl.getText() == "") {
+                                return false;
+                            } else {
+                                if (comlbl.getText() == "") {
+                                    return false;
+                                } else {        
+                                    if (dchcontratacion.getCalendar() == null) {
+                                        return false;
+                                    } else {
+                                        if (deptoempcmb.getSelectedIndex() == 0) {
+                                            return false;
+                                        } else {      
+                                            if (managerempcmb.getSelectedIndex() == 0) {
+                                                return false;
+                                            } else {  
+                                                if (puestocmb.getSelectedIndex() == 0) {
+                                                    return false;
+                                                } else {
+                                                    return true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        
+    }
+        
+
         
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -390,6 +438,12 @@ public class Ventana extends javax.swing.JFrame {
         buscarCmdLoc = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        employeespnl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                employeespnlMouseClicked(evt);
+            }
+        });
 
         deptoempcmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-selecionar departamento-" }));
         deptoempcmb.addActionListener(new java.awt.event.ActionListener() {
@@ -667,6 +721,12 @@ public class Ventana extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Empleados", employeespnl);
 
+        deptospnl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deptospnlMouseClicked(evt);
+            }
+        });
+
         locationCmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-selecionar locacion-" }));
         locationCmb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -814,7 +874,7 @@ public class Ventana extends javax.swing.JFrame {
                 .addComponent(searchDepartamentosCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buscarcmddep, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(238, Short.MAX_VALUE))
+                .addContainerGap(532, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1105,16 +1165,20 @@ public class Ventana extends javax.swing.JFrame {
     private void insertarcmdempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarcmdempActionPerformed
             EmployeeInterface employee = new EmployeeInterface();
         try {
-            java.util.Date fecha = dchcontratacion.getDate();
-            java.sql.Date sqlFecha = new java.sql.Date(fecha.getTime());
-            employee.addEmployee(empNamelbl.getText(), lastNamelbl.getText(),
-                                emaillbl.getText(), phonelbl.getText(), 
-                                sqlFecha, getJobId(),
-                                Float.parseFloat(slrlbl.getText()),
-                                Float.parseFloat(comlbl.getText()),
-                                getManagerEmpId(), getDepartmentId());           
-            
-            cleanTabEmployee();
+            if (validateTabEmployee()) {
+                java.util.Date fecha = dchcontratacion.getDate();
+                java.sql.Date sqlFecha = new java.sql.Date(fecha.getTime());
+                employee.addEmployee(empNamelbl.getText(), lastNamelbl.getText(),
+                                    emaillbl.getText(), phonelbl.getText(), 
+                                    sqlFecha, getJobId(),
+                                    Float.parseFloat(slrlbl.getText()),
+                                    Float.parseFloat(comlbl.getText()),
+                                    getManagerEmpId(), getDepartmentId());           
+
+                cleanTabEmployee();
+            } else {
+                JOptionPane.showMessageDialog(null, "No pueden quedar campos vacios");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Ventana.class.getName()).log(Level
                     .SEVERE, null, ex);
@@ -1125,6 +1189,9 @@ public class Ventana extends javax.swing.JFrame {
             EntityManager em = emf.createEntityManager();
             EmployeeInterface employee = new EmployeeInterface();
         try {
+            if(comlbl.getText() == ""){
+                comlbl = null;
+            }
             java.util.Date fecha = dchcontratacion.getDate();
             java.sql.Date sqlFecha = new java.sql.Date(fecha.getTime());
             employee.updateEmployee(currentEmployee.getEmployeeId(), 
@@ -1242,7 +1309,7 @@ public class Ventana extends javax.swing.JFrame {
         try {
             Query queryEmp = em
                     .createNamedQuery("ViewEmployee.findByEmployeeId")
-                    .setParameter("employeeId", getEmployeeId());
+                    .setParameter("employeeId", getEmployeeId()-1);
             currentEmployee = (ViewEmployee) queryEmp.getSingleResult();
             employeeIDlbl.setText(currentEmployee.getEmployeeId().toString());
             empNamelbl.setText(currentEmployee.getFirstName());
@@ -1362,6 +1429,14 @@ public class Ventana extends javax.swing.JFrame {
     private void cpostaltxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpostaltxtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cpostaltxtActionPerformed
+
+    private void employeespnlMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_employeespnlMouseClicked
+        //empNamelbl.requestFocus();
+    }//GEN-LAST:event_employeespnlMouseClicked
+
+    private void deptospnlMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deptospnlMouseClicked
+        //deptoNametxt.requestFocus();
+    }//GEN-LAST:event_deptospnlMouseClicked
 
     /**
      * @param args the command line arguments
