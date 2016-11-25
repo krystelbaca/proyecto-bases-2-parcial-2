@@ -52,6 +52,10 @@ public class Ventana extends javax.swing.JFrame {
     Query querySelectCou = em.createNamedQuery("Country.findAll");
     List<Country> countries = querySelectCou.getResultList();        
     
+    public void recargarDatos(){
+        
+    }
+    
     ViewEmployee currentEmployee = new ViewEmployee();
     ViewDepartment currentDepartment = new ViewDepartment();
     ViewLocation currentLocation = new ViewLocation();
@@ -372,6 +376,29 @@ public class Ventana extends javax.swing.JFrame {
         }
     }
 
+    public boolean validateTabLocaciones() {
+        if (direccionTxt.getText() == "") {
+            return false;
+        } else {
+            if (cpostaltxt.getText() == "") {
+                return false;
+            } else {
+                if (ciudadtxt.getText() == "") {
+                    return false;
+                } else {
+                    if (estadotxt.getText() == "") {
+                        return false;
+                    } else {
+                        if (paisCmb.getSelectedIndex() == 0) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
         
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -1274,16 +1301,20 @@ public class Ventana extends javax.swing.JFrame {
             location.deleteLocation(currentLocation.getLocationId());     
             cleanTabLocation();
         } catch (SQLException ex) {
-            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_eliminarCmdLocActionPerformed
 
     private void insertarCmdLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarCmdLocActionPerformed
             LocationInterface location = new LocationInterface();
         try {
-            location.addLocation(direccionTxt.getText(), cpostaltxt.getText(), 
+            if(validateTabLocaciones()){
+                location.addLocation(direccionTxt.getText(), cpostaltxt.getText(), 
                                 ciudadtxt.getText(), estadotxt.getText(), getContryId());
-            cleanTabDepartment();
+                cleanTabDepartment();            
+            } else {
+                JOptionPane.showMessageDialog(null, "No pueden quedar campos vacios");               
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Ventana.class.getName())
                     .log(Level.SEVERE, null, ex);
