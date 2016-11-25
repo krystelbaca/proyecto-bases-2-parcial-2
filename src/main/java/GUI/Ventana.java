@@ -174,7 +174,7 @@ public class Ventana extends javax.swing.JFrame {
  * 
  */ 
     public Short getDepartmentId(){
-        Integer indexSelected = searchDepartamentosCmb.getSelectedIndex();
+        Integer indexSelected = searchDepartamentosCmb.getSelectedIndex()-1;
         Short departmentId = departments.get(indexSelected).getDepartmentId();
         return departmentId;
     } 
@@ -292,7 +292,8 @@ public class Ventana extends javax.swing.JFrame {
         public void cleanTabDepartment(){
             insertarCmdDep.setEnabled(true);
             actualizarCmdDep.setEnabled(false);
-            eliminarCmdDep.setEnabled(false);    
+            eliminarCmdDep.setEnabled(false);
+            deptoIDlbl.setText("");
             deptoNametxt.setText("");
             managerDepCmb.setSelectedIndex(0);
             locationCmb.setSelectedIndex(0);
@@ -310,39 +311,38 @@ public class Ventana extends javax.swing.JFrame {
             paisCmb.setSelectedIndex(0);
     }        
         
-    public boolean validateTabEmployee(){
-            if (empNamelbl.getText() == "") {
+    public boolean validateTabEmployee() {
+        if (empNamelbl.getText() == "") {
+            return false;
+        } else {
+            if (lastNamelbl.getText() == "") {
                 return false;
             } else {
-                if (lastNamelbl.getText() == "") {
+                if (emaillbl.getText() == "") {
                     return false;
                 } else {
-                    if (emaillbl.getText() == "") {
+                    if (phonelbl.getText() == "") {
                         return false;
                     } else {
-                        if (phonelbl.getText() == "") {
+                        if (slrlbl.getText() == "") {
                             return false;
                         } else {
-                            if (slrlbl.getText() == "") {
+                            if (comlbl.getText() == "") {
                                 return false;
                             } else {
-                                if (comlbl.getText() == "") {
+                                if (dchcontratacion.getCalendar() == null) {
                                     return false;
-                                } else {        
-                                    if (dchcontratacion.getCalendar() == null) {
+                                } else {
+                                    if (deptoempcmb.getSelectedIndex() == 0) {
                                         return false;
                                     } else {
-                                        if (deptoempcmb.getSelectedIndex() == 0) {
+                                        if (managerempcmb.getSelectedIndex() == 0) {
                                             return false;
-                                        } else {      
-                                            if (managerempcmb.getSelectedIndex() == 0) {
+                                        } else {
+                                            if (puestocmb.getSelectedIndex() == 0) {
                                                 return false;
-                                            } else {  
-                                                if (puestocmb.getSelectedIndex() == 0) {
-                                                    return false;
-                                                } else {
-                                                    return true;
-                                                }
+                                            } else {
+                                                return true;
                                             }
                                         }
                                     }
@@ -352,9 +352,25 @@ public class Ventana extends javax.swing.JFrame {
                     }
                 }
             }
-        
+        }
     }
         
+    
+    public boolean validateTabDepartment() {
+        if (deptoNametxt.getText() == "") {
+            return false;
+        } else {
+            if (managerDepCmb.getSelectedIndex() == 0) {
+                return false;
+            } else {
+                if (locationCmb.getSelectedIndex() == 0) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+    }
 
         
     @SuppressWarnings("unchecked")
@@ -548,18 +564,18 @@ public class Ventana extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(30, 30, 30))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel3)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(jLabel3)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(employeeIDlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -575,7 +591,7 @@ public class Ventana extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(employeeIDlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -810,6 +826,7 @@ public class Ventana extends javax.swing.JFrame {
         });
 
         actualizarCmdDep.setText("Actualizar");
+        actualizarCmdDep.setEnabled(false);
         actualizarCmdDep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 actualizarCmdDepActionPerformed(evt);
@@ -817,6 +834,7 @@ public class Ventana extends javax.swing.JFrame {
         });
 
         eliminarCmdDep.setText("Eliminar");
+        eliminarCmdDep.setEnabled(false);
         eliminarCmdDep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 eliminarCmdDepActionPerformed(evt);
@@ -1210,10 +1228,14 @@ public class Ventana extends javax.swing.JFrame {
     private void insertarCmdDepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarCmdDepActionPerformed
             DepartmentInterface department = new DepartmentInterface();
         try {
-            department.addDepartment(deptoNametxt.getText(),
+            if(validateTabDepartment()){
+                department.addDepartment(deptoNametxt.getText(),
                                      getManagerDepId(),
                                      getLocationDepId());
-            cleanTabDepartment();
+                cleanTabDepartment();            
+            } else {
+                JOptionPane.showMessageDialog(null, "No pueden quedar campos vacios");                
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Ventana.class.getName())
                     .log(Level.SEVERE, null, ex);
