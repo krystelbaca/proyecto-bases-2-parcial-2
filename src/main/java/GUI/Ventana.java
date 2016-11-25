@@ -54,6 +54,57 @@ public class Ventana extends javax.swing.JFrame {
     
     public void recargarDatos(){
         
+        empleadoscmb.removeAllItems();
+        empleadoscmb.addItem("-seleccionar empleado-");        
+        
+        employees = querySelectEmp.getResultList();     
+        locations = querySelectLoc.getResultList(); 
+        departments = (ArrayList<ViewDepartment>) 
+                querySelectDep.getResultList(); 
+        jobs = querySelectJob.getResultList();   
+        countries = querySelectCou.getResultList();
+        
+        em.getTransaction();       
+        for (ViewEmployee employee : employees) {
+            String employeeItem = String.format("%s %s (%s)", 
+                    employee.getFirstName(), 
+                    employee.getLastName(),
+                    employee.getEmployeeId());
+            managerDepCmb.addItem(employeeItem);
+            managerempcmb.addItem(employeeItem);
+            empleadoscmb.addItem(employeeItem);
+        }
+
+        for (ViewLocation location : locations) {
+            String locationItem = String.format("%s, %s",
+                    location.getCity(), 
+                    location.getCountryId());
+            locationCmb.addItem(locationItem);
+            searchLocationsCmb.addItem(locationItem);
+        }        
+        
+        for (ViewDepartment department : departments) {
+            String departmentItem = String.format("%s (%s)",
+                    department.getDepartmentName(), 
+                    department.getDepartmentId());
+            deptoempcmb.addItem(departmentItem);
+            searchDepartamentosCmb.addItem(departmentItem);
+        }       
+        
+        for (Job job : jobs) {
+            String jobItem = String.format("%s (%s)",
+                    job.getJobTitle(), 
+                    job.getJobId());
+            puestocmb.addItem(jobItem);
+        }
+        
+        for (Country country : countries) {
+            String jobItem = String.format("%s (%s)",
+                    country.getCountryName(), 
+                    country.getCountryId());
+            paisCmb.addItem(jobItem);
+        }
+        em.close();
     }
     
     ViewEmployee currentEmployee = new ViewEmployee();
@@ -71,7 +122,7 @@ public class Ventana extends javax.swing.JFrame {
                     employee.getEmployeeId());
             managerDepCmb.addItem(employeeItem);
             managerempcmb.addItem(employeeItem);
-            empladoscmb.addItem(employeeItem);
+            empleadoscmb.addItem(employeeItem);
         }
 
         for (ViewLocation location : locations) {
@@ -112,7 +163,7 @@ public class Ventana extends javax.swing.JFrame {
  * 
  */
     public Integer getEmployeeId(){
-        Integer indexSelected = empladoscmb.getSelectedIndex();
+        Integer indexSelected = empleadoscmb.getSelectedIndex();
         Integer employeeId = employees.get(indexSelected).getEmployeeId();
         return employeeId;
     }
@@ -291,6 +342,7 @@ public class Ventana extends javax.swing.JFrame {
             deptoempcmb.setSelectedIndex(0);
             managerempcmb.setSelectedIndex(0);
             puestocmb.setSelectedIndex(0);
+            empleadoscmb.setSelectedIndex(0);
     }
     
         public void cleanTabDepartment(){
@@ -301,6 +353,7 @@ public class Ventana extends javax.swing.JFrame {
             deptoNametxt.setText("");
             managerDepCmb.setSelectedIndex(0);
             locationCmb.setSelectedIndex(0);
+            searchDepartamentosCmb.setSelectedIndex(0);
     }
         
         public void cleanTabLocation(){
@@ -313,6 +366,7 @@ public class Ventana extends javax.swing.JFrame {
             ciudadtxt.setText("");
             estadotxt.setText("");
             paisCmb.setSelectedIndex(0);
+            searchLocationsCmb.setSelectedIndex(0);
     }        
         
     public boolean validateTabEmployee() {
@@ -437,7 +491,7 @@ public class Ventana extends javax.swing.JFrame {
         jPanel12 = new javax.swing.JPanel();
         buscarcmdemp = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        empladoscmb = new javax.swing.JComboBox<String>();
+        empleadoscmb = new javax.swing.JComboBox<String>();
         deptospnl = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         locationCmb = new javax.swing.JComboBox<String>();
@@ -704,10 +758,10 @@ public class Ventana extends javax.swing.JFrame {
 
         jLabel2.setText("Registro:");
 
-        empladoscmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-selecionar empleado-" }));
-        empladoscmb.addItemListener(new java.awt.event.ItemListener() {
+        empleadoscmb.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-selecionar empleado-" }));
+        empleadoscmb.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                empladoscmbItemStateChanged(evt);
+                empleadoscmbItemStateChanged(evt);
             }
         });
 
@@ -719,7 +773,7 @@ public class Ventana extends javax.swing.JFrame {
                 .addGap(209, 209, 209)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(empladoscmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(empleadoscmb, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(30, 30, 30)
                 .addComponent(buscarcmdemp, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -731,7 +785,7 @@ public class Ventana extends javax.swing.JFrame {
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(buscarcmdemp, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(empladoscmb, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(empleadoscmb, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28))
         );
 
@@ -905,6 +959,11 @@ public class Ventana extends javax.swing.JFrame {
         searchDepartamentosCmb.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 searchDepartamentosCmbItemStateChanged(evt);
+            }
+        });
+        searchDepartamentosCmb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchDepartamentosCmbActionPerformed(evt);
             }
         });
 
@@ -1218,7 +1277,7 @@ public class Ventana extends javax.swing.JFrame {
                                     sqlFecha, getJobId(),
                                     Float.parseFloat(slrlbl.getText()),
                                     Float.parseFloat(comlbl.getText()),
-                                    getManagerEmpId(), getDepartmentId());           
+                                    getManagerEmpId(), getDepartmentEmpId());           
 
                 cleanTabEmployee();
             } else {
@@ -1259,7 +1318,8 @@ public class Ventana extends javax.swing.JFrame {
                 department.addDepartment(deptoNametxt.getText(),
                                      getManagerDepId(),
                                      getLocationDepId());
-                cleanTabDepartment();            
+                cleanTabDepartment();
+                recargarDatos();
             } else {
                 JOptionPane.showMessageDialog(null, "No pueden quedar campos vacios");                
             }
@@ -1288,7 +1348,7 @@ public class Ventana extends javax.swing.JFrame {
             DepartmentInterface department = new DepartmentInterface();
         try {
             department.deleteDepartment(currentDepartment.getDepartmentId());     
-            cleanTabEmployee();
+            cleanTabDepartment();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }
@@ -1311,7 +1371,7 @@ public class Ventana extends javax.swing.JFrame {
             if(validateTabLocaciones()){
                 location.addLocation(direccionTxt.getText(), cpostaltxt.getText(), 
                                 ciudadtxt.getText(), estadotxt.getText(), getContryId());
-                cleanTabDepartment();            
+                cleanTabLocation();
             } else {
                 JOptionPane.showMessageDialog(null, "No pueden quedar campos vacios");               
             }
@@ -1330,7 +1390,7 @@ public class Ventana extends javax.swing.JFrame {
                                     ciudadtxt.getText(), 
                                     estadotxt.getText(), 
                                     getContryId());
-            cleanTabDepartment();
+            cleanTabLocation();
         } catch (SQLException ex) {
             Logger.getLogger(Ventana.class.getName())
                     .log(Level.SEVERE, null, ex);
@@ -1415,11 +1475,11 @@ public class Ventana extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_buscarcmddepActionPerformed
 
-    private void empladoscmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_empladoscmbItemStateChanged
-        if (empladoscmb.getSelectedIndex() == 0){
+    private void empleadoscmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_empleadoscmbItemStateChanged
+        if (empleadoscmb.getSelectedIndex() == 0){
             cleanTabEmployee();
         }
-    }//GEN-LAST:event_empladoscmbItemStateChanged
+    }//GEN-LAST:event_empleadoscmbItemStateChanged
 
     private void eliminarcmdempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarcmdempActionPerformed
             EntityManager em = emf.createEntityManager();
@@ -1428,7 +1488,7 @@ public class Ventana extends javax.swing.JFrame {
             employee.deleteEmployee(currentEmployee.getEmployeeId());     
             cleanTabEmployee();
         } catch (SQLException ex) {
-            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_eliminarcmdempActionPerformed
 
@@ -1491,6 +1551,10 @@ public class Ventana extends javax.swing.JFrame {
         //deptoNametxt.requestFocus();
     }//GEN-LAST:event_deptospnlMouseClicked
 
+    private void searchDepartamentosCmbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchDepartamentosCmbActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchDepartamentosCmbActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1547,7 +1611,7 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JButton eliminarcmdemp;
     private javax.swing.JTextField emaillbl;
     private javax.swing.JTextField empNamelbl;
-    private javax.swing.JComboBox<String> empladoscmb;
+    private javax.swing.JComboBox<String> empleadoscmb;
     private javax.swing.JLabel employeeIDlbl;
     private javax.swing.JPanel employeespnl;
     private javax.swing.JTextField estadotxt;
